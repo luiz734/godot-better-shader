@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://wiyc3pqvhvn3"]
+[gd_scene load_steps=5 format=3 uid="uid://wiyc3pqvhvn3"]
 
 [ext_resource type="Script" path="res://addons/better-shader/plugin_panel.gd" id="1_kyrxg"]
 [ext_resource type="Texture2D" uid="uid://dr37161a2wyow" path="res://icon.svg" id="2_t02vu"]
 [ext_resource type="Script" path="res://addons/better-shader/camera_2d.gd" id="2_y778w"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eb7ib"]
 
 [node name="Shader Preview" type="Control"]
 custom_minimum_size = Vector2(0, 100)
@@ -10,6 +12,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -741.0
+offset_bottom = -271.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kyrxg")
@@ -22,12 +26,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SetShaderFile" type="Button" parent="VBoxContainer"]
+[node name="SceneButtons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="SetBaseScene" type="Button" parent="VBoxContainer/SceneButtons"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+text = "Select Preview Scene"
+
+[node name="UnsetBaseScene" type="Button" parent="VBoxContainer/SceneButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Remove"
+
+[node name="ShaderButtons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="SetShaderFile" type="Button" parent="VBoxContainer/ShaderButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Select Shader File"
 
-[node name="FileDialogShader" type="FileDialog" parent="VBoxContainer/SetShaderFile"]
+[node name="FileDialogShader" type="FileDialog" parent="VBoxContainer/ShaderButtons/SetShaderFile"]
 unique_name_in_owner = true
 title = "Open a File"
 position = Vector2i(0, 36)
@@ -36,10 +60,10 @@ ok_button_text = "Open"
 file_mode = 0
 access = 2
 
-[node name="SetBaseScene" type="Button" parent="VBoxContainer"]
+[node name="UnsetShaderFile" type="Button" parent="VBoxContainer/ShaderButtons"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Select Shader File"
+text = "Remove"
 
 [node name="SetZoomLevel" type="HSlider" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -61,7 +85,7 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer"]
 unique_name_in_owner = true
 handle_input_locally = false
-size = Vector2i(1152, 558)
+size = Vector2i(411, 287)
 render_target_update_mode = 4
 
 [node name="Camera2D" type="Camera2D" parent="VBoxContainer/SubViewportContainer/SubViewport"]
@@ -71,11 +95,12 @@ script = ExtResource("2_y778w")
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/SubViewportContainer/SubViewport"]
 unique_name_in_owner = true
-offset_right = 1152.0
-offset_bottom = 558.0
+offset_right = 411.0
+offset_bottom = 287.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/SubViewportContainer/SubViewport/CenterContainer"]
+material = SubResource("ShaderMaterial_eb7ib")
 layout_mode = 2
 texture = ExtResource("2_t02vu")

@@ -4,7 +4,6 @@ extends Camera2D
 var dragging = false
 var init_pos: Vector2
 var base_pos: Vector2
-var active = false
 
 signal zoom_level_changed(sig: int)
 
@@ -22,14 +21,6 @@ func _input(event: InputEvent) -> void:
                 zoom_level_changed.emit(1)
             if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
                 zoom_level_changed.emit(-1)
-
-
-            
-func on_mouse_in():
-    active = true
-func on_mouse_out():
-    active = false
-    
 
 func _process(delta: float) -> void:
     if dragging:

@@ -2,7 +2,9 @@
 extends Control
 
 var plugin: EditorPlugin
-@onready var shader_file_button: Button  = %SetShaderFile
+@onready var set_shader_file_button: Button  = %SetShaderFile
+@onready var unset_shader_file_button: Button  = %UnsetShaderFile
+
 @onready var base_scene_button: Button  = %SetBaseScene
 @onready var zoom_level_slider: HSlider  = %SetZoomLevel
 @onready var file_dialog_shader: FileDialog  = %FileDialogShader
@@ -11,22 +13,34 @@ var plugin: EditorPlugin
 @onready var center_container: CenterContainer  = %CenterContainer
 @onready var camera: Camera2D  = %Camera2D
 
+var target
+
 var mouse_on_viewport = false
 
 func _input(event: InputEvent):
     if mouse_on_viewport:
         subviewport.push_input(event)
     
-func on_shader_file_button_pressed():
+func on_set_shader_file_button_pressed():
     file_dialog_shader.popup_centered()
-    print("shader file")
+    
+func on_unset_shader_file_button_pressed():
+    if not target:
+        printerr("A target should always exist")    
+    target.material = null;
 
 func on_base_scene_button_pressed():
-    subviewport_container.hide()
     print("base scene")
 
-func on_shader_file_selected():
-    print("file selected")
+func on_shader_file_selected(path: String):
+    var shader_file = load(path)
+    var new_material = ShaderMaterial.new()
+    new_material.shader = shader_file
+    
+    if not target:
+        printerr("A target should always exist")    
+    target.material = new_material;
+
 
 func on_subviewport_container_resized():
     #print("resize")
@@ -46,7 +60,10 @@ func on_mouse_out():
 
 func _ready() -> void:
     file_dialog_shader.file_selected.connect(on_shader_file_selected)
-    shader_file_button.pressed.connect(on_shader_file_button_pressed)
+    
+    set_shader_file_button.pressed.connect(on_set_shader_file_button_pressed)
+    unset_shader_file_button.pressed.connect(on_unset_shader_file_button_pressed)
+    
     base_scene_button.pressed.connect(on_base_scene_button_pressed)
     zoom_level_slider.value_changed.connect(on_zoom_level_value_changed)
     
@@ -54,3 +71,8 @@ func _ready() -> void:
     subviewport_container.mouse_entered.connect(on_mouse_in)
     subviewport_container.mouse_exited.connect(on_mouse_out)
     camera.zoom_level_changed.connect(on_zoom_wheel_changed)
+    
+    var children = center_container.get_children()
+    if len(children) != 1:
+        printerr("CenterContainer should have only 1 child")
+    target = children[0]
