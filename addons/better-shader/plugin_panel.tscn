@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://wiyc3pqvhvn3"]
+[gd_scene load_steps=6 format=3 uid="uid://wiyc3pqvhvn3"]
 
 [ext_resource type="Script" path="res://addons/better-shader/plugin_panel.gd" id="1_kyrxg"]
 [ext_resource type="Texture2D" uid="uid://dr37161a2wyow" path="res://icon.svg" id="2_t02vu"]
 [ext_resource type="Script" path="res://addons/better-shader/camera_2d.gd" id="2_y778w"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_73chd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eb7ib"]
 
@@ -35,6 +37,16 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Select Preview Scene"
+
+[node name="FileDialogScene" type="FileDialog" parent="VBoxContainer/SceneButtons/SetBaseScene"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+title = "Open a File"
+position = Vector2i(0, 36)
+size = Vector2i(600, 400)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
 
 [node name="UnsetBaseScene" type="Button" parent="VBoxContainer/SceneButtons"]
 unique_name_in_owner = true
@@ -76,6 +88,7 @@ value = 1.0
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_73chd")
 clip_contents = true
 custom_minimum_size = Vector2(256, 256)
 layout_mode = 2

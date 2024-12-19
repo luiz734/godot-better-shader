@@ -5,6 +5,6 @@ void vertex() {
 }
 
 void fragment() {
-    COLOR = vec4(UV, 1.0, 1.0);
-    COLOR.a = UV.x;
+    COLOR = texture(TEXTURE, UV);
+    COLOR.rg = UV;
 }
