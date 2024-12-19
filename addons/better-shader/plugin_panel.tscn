@@ -1,0 +1,81 @@
+[gd_scene load_steps=4 format=3 uid="uid://wiyc3pqvhvn3"]
+
+[ext_resource type="Script" path="res://addons/better-shader/plugin_panel.gd" id="1_kyrxg"]
+[ext_resource type="Texture2D" uid="uid://dr37161a2wyow" path="res://icon.svg" id="2_t02vu"]
+[ext_resource type="Script" path="res://addons/better-shader/camera_2d.gd" id="2_y778w"]
+
+[node name="Shader Preview" type="Control"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kyrxg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SetShaderFile" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Select Shader File"
+
+[node name="FileDialogShader" type="FileDialog" parent="VBoxContainer/SetShaderFile"]
+unique_name_in_owner = true
+title = "Open a File"
+position = Vector2i(0, 36)
+size = Vector2i(600, 400)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="SetBaseScene" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Select Shader File"
+
+[node name="SetZoomLevel" type="HSlider" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+min_value = 0.1
+max_value = 3.0
+step = 0.05
+value = 1.0
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer"]
+unique_name_in_owner = true
+handle_input_locally = false
+size = Vector2i(1152, 558)
+render_target_update_mode = 4
+
+[node name="Camera2D" type="Camera2D" parent="VBoxContainer/SubViewportContainer/SubViewport"]
+unique_name_in_owner = true
+position = Vector2(-61.5157, -24.1402)
+script = ExtResource("2_y778w")
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/SubViewportContainer/SubViewport"]
+unique_name_in_owner = true
+offset_right = 1152.0
+offset_bottom = 558.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/SubViewportContainer/SubViewport/CenterContainer"]
+layout_mode = 2
+texture = ExtResource("2_t02vu")
