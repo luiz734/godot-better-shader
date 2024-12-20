@@ -35,6 +35,9 @@ func on_apply_to_viewport_toggled(toggled_on: bool):
     else:
         target.material = bs_storage.loaded_material
         subviewport_container.material = null
+        
+    bs_storage.apply_to_viewport = toggled_on
+    ResourceSaver.save(bs_storage, "res://addons/better-shader/default.tres")
     
 func on_set_shader_file_button_pressed():
     file_dialog_shader.popup_centered()
@@ -121,6 +124,8 @@ func _ready() -> void:
     for c in center_container.get_children():
         c.queue_free()
     center_container.add_child(target)
+    
+    apply_to_viewport.button_pressed = bs_storage.apply_to_viewport
     
   
     
