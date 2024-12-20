@@ -10,85 +10,75 @@ var plugin: EditorPlugin
 @onready var unset_base_scene_button: Button  = %UnsetBaseScene
 @onready var file_dialog_scene: FileDialog = %FileDialogScene
 
+@onready var apply_to_viewport: CheckButton = %ApplyToViewport
+
 @onready var zoom_level_slider: HSlider  = %SetZoomLevel
 @onready var subviewport_container: SubViewportContainer  = %SubViewportContainer
 @onready var subviewport: SubViewport  = %SubViewport
 @onready var center_container: CenterContainer  = %CenterContainer
 @onready var camera: Camera2D  = %Camera2D
 
-var target
+var bs_storage: BSStorage
 
+var target
+var default_target
 var mouse_on_viewport = false
 
 func _input(event: InputEvent):
     if mouse_on_viewport:
         subviewport.push_input(event)
+        
+func on_apply_to_viewport_toggled(toggled_on: bool):
+    if toggled_on:
+        subviewport_container.material = bs_storage.loaded_material
+        target.material = null
+    else:
+        target.material = bs_storage.loaded_material
+        subviewport_container.material = null
     
 func on_set_shader_file_button_pressed():
     file_dialog_shader.popup_centered()
     
+func on_shader_file_selected(path: String):
+    var shader_file = load(path)
+    var shader_material = ShaderMaterial.new()
+    shader_material.shader = shader_file
+    bs_storage.loaded_material = shader_material
+    ResourceSaver.save(bs_storage, "res://addons/better-shader/default.tres")
+    on_apply_to_viewport_toggled(apply_to_viewport.button_pressed)
     
 func on_unset_shader_file_button_pressed():
-    subviewport.material.shader = null
-    #if not target:
-        #printerr("A target should always exist")    
-    #target.material = null;
+    bs_storage.loaded_material.shader = null
+    on_apply_to_viewport_toggled(apply_to_viewport.button_pressed)
 
 func on_set_base_scene_button_pressed():
     file_dialog_scene.popup_centered()
-    
-func on_shader_file_selected(path: String):
-    var shader_file = load(path)
-    var new_material = ShaderMaterial.new()
-    new_material.shader = shader_file
-    
-    #if not target:
-        #printerr("A target should always exist")    
-    subviewport_container.material = new_material;
-    
+
 func on_unset_base_scene_button_pressed():
+    bs_storage.loaded_scene = null
+    ResourceSaver.save(bs_storage, "res://addons/better-shader/default.tres") 
     var texture_rect = TextureRect.new()
-    if target:
-        texture_rect.material = target.material
-        
-    var children = center_container.get_children()
-    if len(children) != 1:
-        printerr("CenterContainer should have only 1 child")
-    for c in children:
+    texture_rect.material = bs_storage.loaded_material
+    for c in center_container.get_children():
         c.queue_free()
-    
     center_container.add_child(texture_rect)
     texture_rect.texture = load("res://icon.svg")
     target = texture_rect
-    
 
 func on_scene_file_selected(path: String):
-    var scene_file: PackedScene = load(path)
-    
-    var instance = scene_file.instantiate()
-    
-    if target:
-        instance.material = target.material
-    
+    bs_storage.loaded_scene = load(path)
+    ResourceSaver.save(bs_storage, "res://addons/better-shader/default.tres")
+    var instance = bs_storage.loaded_scene.instantiate()
+    instance.material = bs_storage.loaded_material
     target = instance  
-    
-    var children = center_container.get_children()
-    if len(children) != 1:
-        printerr("CenterContainer should have only 1 child")
-    for c in children:
+    for c in center_container.get_children():
         c.queue_free()
     center_container.add_child(instance)
 
-
-
-
-
 func on_subviewport_container_resized():
-    #print("resize")
     center_container.size = subviewport_container.size
     
 func on_zoom_level_value_changed(value: float):
-    #print("zoom to " + str(zoom_level_slider.value))
     camera.zoom = Vector2(zoom_level_slider.value, zoom_level_slider.value)
     
 func on_zoom_wheel_changed(sig: int):
@@ -109,6 +99,8 @@ func _ready() -> void:
     set_base_scene_button.pressed.connect(on_set_base_scene_button_pressed)
     unset_base_scene_button.pressed.connect(on_unset_base_scene_button_pressed)
     
+    apply_to_viewport.toggled.connect(on_apply_to_viewport_toggled)
+    
     zoom_level_slider.value_changed.connect(on_zoom_level_value_changed)
     
     subviewport_container.item_rect_changed.connect(on_subviewport_container_resized)
@@ -116,7 +108,19 @@ func _ready() -> void:
     subviewport_container.mouse_exited.connect(on_mouse_out)
     camera.zoom_level_changed.connect(on_zoom_wheel_changed)
     
-    var children = center_container.get_children()
-    if len(children) != 1:
-        printerr("CenterContainer should have only 1 child")
-    target = children[0]
+    bs_storage = ResourceLoader.load("res://addons/better-shader/default.tres")
+    
+    if bs_storage.loaded_material == null:
+        bs_storage.loaded_material = ShaderMaterial.new()
+    target = TextureRect.new()
+    target.texture = load("res://icon.svg")
+    if bs_storage.loaded_scene:
+        target = bs_storage.loaded_scene.instantiate()
+    
+    target.material = bs_storage.loaded_material
+    for c in center_container.get_children():
+        c.queue_free()
+    center_container.add_child(target)
+    
+  
+    

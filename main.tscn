@@ -1,11 +1,3 @@
-[gd_scene load_steps=2 format=3 uid="uid://cewhnkgu3xuav"]
-
-[ext_resource type="PackedScene" uid="uid://wiyc3pqvhvn3" path="res://addons/better-shader/plugin_panel.tscn" id="1_di0kw"]
+[gd_scene format=3 uid="uid://cewhnkgu3xuav"]
 
 [node name="Node2D" type="Node2D"]
-
-[node name="PluginPanel" parent="." instance=ExtResource("1_di0kw")]
-offset_left = 343.0
-offset_top = 163.0
-offset_right = 343.0
-offset_bottom = 263.0
