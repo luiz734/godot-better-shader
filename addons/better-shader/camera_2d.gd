@@ -1,20 +1,21 @@
+## Allows user to zoom in/out on the viewport
 @tool
 extends Camera2D
 
 var dragging = false
-var init_pos: Vector2
-var base_pos: Vector2
+var drag_init_pos: Vector2
 
+## Tell parent to update the slider
 signal zoom_level_changed(sig: int)
 
 func _input(event: InputEvent) -> void:
     if event is InputEventMouseButton:
         if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
             dragging = true
-            init_pos = get_global_mouse_position()
+            drag_init_pos = get_global_mouse_position()
         if event.button_index == MOUSE_BUTTON_LEFT and event.is_released():
             dragging = false
-            init_pos = Vector2.ZERO
+            drag_init_pos = Vector2.ZERO
             
         if event.is_pressed():
             if event.button_index == MOUSE_BUTTON_WHEEL_UP:
@@ -24,9 +25,5 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
     if dragging:
-        var tartget_pos = base_pos + (init_pos - get_global_mouse_position())  
+        var tartget_pos = position + (drag_init_pos - get_global_mouse_position())  
         position = tartget_pos
-        base_pos = position
-    
-        
-        

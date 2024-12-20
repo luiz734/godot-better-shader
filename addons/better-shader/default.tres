@@ -1,12 +1,10 @@
-[gd_resource type="Resource" script_class="BSStorage" load_steps=4 format=3 uid="uid://b05jinkaiyghp"]
+[gd_resource type="Resource" script_class="BSStorage" load_steps=3 format=3 uid="uid://b05jinkaiyghp"]
 
-[ext_resource type="PackedScene" uid="uid://dn02jmpu624xy" path="res://test.tscn" id="1_cbgt1"]
 [ext_resource type="Script" path="res://addons/better-shader/state.gd" id="1_sg1uc"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6a7j7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cybor"]
 
 [resource]
 script = ExtResource("1_sg1uc")
-loaded_scene = ExtResource("1_cbgt1")
-loaded_material = SubResource("ShaderMaterial_6a7j7")
+loaded_material = SubResource("ShaderMaterial_cybor")
 apply_to_viewport = false

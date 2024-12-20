@@ -1,4 +1,5 @@
 extends Resource
+## Store last session
 class_name BSStorage
 
 @export var loaded_scene: PackedScene

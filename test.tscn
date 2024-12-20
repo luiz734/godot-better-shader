@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dn02jmpu624xy"]
+[gd_scene load_steps=2 format=3 uid="uid://dn02jmpu624xy"]
 
 [ext_resource type="Texture2D" uid="uid://dr37161a2wyow" path="res://icon.svg" id="1_dpwty"]
-[ext_resource type="Texture2D" uid="uid://cfnpwusxnjbrm" path="res://addons/better-shader/icon.png" id="2_8fika"]
 
 [node name="SubViewportContainer" type="SubViewportContainer"]
 offset_right = 40.0
@@ -19,8 +18,3 @@ texture = ExtResource("1_dpwty")
 [node name="Icon" type="Sprite2D" parent="SubViewport/Icon"]
 position = Vector2(7, 117)
 texture = ExtResource("1_dpwty")
-
-[node name="Icon2" type="Sprite2D" parent="SubViewport/Icon"]
-position = Vector2(88, 39)
-scale = Vector2(13.8125, 13.875)
-texture = ExtResource("2_8fika")
