@@ -48,9 +48,15 @@ func _ready() -> void:
     subviewport_container.mouse_entered.connect(on_mouse_in)
     subviewport_container.mouse_exited.connect(on_mouse_out)
     camera.zoom_level_changed.connect(on_zoom_wheel_changed)
+    camera.position_changed.connect(on_camera_position_changed)
     
     # Setup the last session
+    if not FileAccess.file_exists(BS_STORAGE_PATH):
+        bs_storage = BSStorage.new()
+        ResourceSaver.save(BSStorage.new(), BS_STORAGE_PATH)
+
     bs_storage = ResourceLoader.load(BS_STORAGE_PATH)
+
     if bs_storage.loaded_material == null:
         bs_storage.loaded_material = ShaderMaterial.new()
     material_target = TextureRect.new()
@@ -62,6 +68,11 @@ func _ready() -> void:
         c.queue_free()
     center_container.add_child(material_target)
     apply_to_viewport.button_pressed = bs_storage.apply_to_viewport
+    zoom_level_slider.value = bs_storage.zoom_level.x
+    camera.zoom = bs_storage.zoom_level
+    camera.position = bs_storage.camera_position
+
+    print("setup done")
 
 
 # Only foward inputs
@@ -133,10 +144,22 @@ func on_scene_file_selected(path: String):
 # Other signals callbacks
 func on_subviewport_container_resized():
     center_container.size = subviewport_container.size
+
+func on_camera_position_changed(pos: Vector2):
+    bs_storage.camera_position = pos
+    ResourceSaver.save(bs_storage, BS_STORAGE_PATH)
+
 func on_zoom_level_value_changed(value: float):
     camera.zoom = Vector2(zoom_level_slider.value, zoom_level_slider.value)
+    bs_storage.zoom_level = Vector2(zoom_level_slider.value, zoom_level_slider.value)
+    ResourceSaver.save(bs_storage, BS_STORAGE_PATH)
+    # TODO: stop writing on every change
+
 func on_zoom_wheel_changed(sig: int):
     zoom_level_slider.value += sig * 0.1
+    bs_storage.zoom_level = Vector2(zoom_level_slider.value, zoom_level_slider.value)
+    ResourceSaver.save(bs_storage, BS_STORAGE_PATH)
+
 func on_mouse_in():
     mouse_on_viewport = true
 func on_mouse_out():

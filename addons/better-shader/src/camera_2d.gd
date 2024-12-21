@@ -5,6 +5,8 @@ extends Camera2D
 var dragging = false
 var drag_init_pos: Vector2
 
+signal position_changed(pos: Vector2)
+
 ## Tell parent to update the slider
 signal zoom_level_changed(sig: int)
 
@@ -27,3 +29,4 @@ func _process(delta: float) -> void:
     if dragging:
         var tartget_pos = position + (drag_init_pos - get_global_mouse_position())  
         position = tartget_pos
+        position_changed.emit(position)
