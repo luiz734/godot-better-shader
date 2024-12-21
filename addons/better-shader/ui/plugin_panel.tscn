@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://wiyc3pqvhvn3"]
 
-[ext_resource type="Script" path="res://addons/better-shader/plugin_panel.gd" id="1_kyrxg"]
-[ext_resource type="Script" path="res://addons/better-shader/camera_2d.gd" id="2_y778w"]
+[ext_resource type="Script" path="res://addons/better-shader/ui/plugin_panel.gd" id="1_kyrxg"]
+[ext_resource type="Script" path="res://addons/better-shader/src/camera_2d.gd" id="2_y778w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_73chd"]
 
@@ -58,7 +58,7 @@ alignment = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Select Shader File"
+text = "Select Material File"
 
 [node name="FileDialogShader" type="FileDialog" parent="VBoxContainer/ShaderButtons/SetShaderFile"]
 unique_name_in_owner = true

@@ -2,7 +2,7 @@
 extends EditorPlugin
 
 
-var plugin_panel_prefab = preload("res://addons/better-shader/plugin_panel.tscn")
+var plugin_panel_prefab = preload("res://addons/better-shader/ui/plugin_panel.tscn")
 var plugin_panel
 
 ## Init plugin

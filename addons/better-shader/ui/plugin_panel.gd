@@ -17,7 +17,7 @@ extends Control
 @onready var center_container: CenterContainer  = %CenterContainer
 @onready var camera: Camera2D  = %Camera2D
 
-const BS_STORAGE_PATH = "res://addons/better-shader/default.tres"
+const BS_STORAGE_PATH = "res://addons/better-shader/session.tres"
 const ICON_PATH = "res://addons/better-shader/icon.svg"
 var default_texture = preload(ICON_PATH)
 
@@ -90,10 +90,10 @@ func _on_set_shader_file_button_pressed():
     file_dialog_shader.popup_centered()
 
 func on_shader_file_selected(path: String):
-    var shader_file = load(path)
-    var shader_material = ShaderMaterial.new()
-    shader_material.shader = shader_file
-    bs_storage.loaded_material = shader_material
+    var material_file = load(path)
+    #var shader_material = ShaderMaterial.new()
+    #shader_material.shader = shader_file
+    bs_storage.loaded_material = material_file
     ResourceSaver.save(bs_storage, BS_STORAGE_PATH)
     _on_apply_to_viewport_toggled(apply_to_viewport.button_pressed)
     

@@ -1,20 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://dn02jmpu624xy"]
+[gd_scene load_steps=3 format=3 uid="uid://dn02jmpu624xy"]
 
 [ext_resource type="Texture2D" uid="uid://dr37161a2wyow" path="res://icon.svg" id="1_dpwty"]
 
-[node name="SubViewportContainer" type="SubViewportContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_toy54"]
 
-[node name="SubViewport" type="SubViewport" parent="."]
-handle_input_locally = false
-render_target_update_mode = 4
-
-[node name="Icon" type="Sprite2D" parent="SubViewport"]
+[node name="Icon" type="Sprite2D"]
 position = Vector2(147, 140.5)
 scale = Vector2(2.35938, 2.46094)
 texture = ExtResource("1_dpwty")
 
-[node name="Icon" type="Sprite2D" parent="SubViewport/Icon"]
+[node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(7, 117)
 texture = ExtResource("1_dpwty")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_toy54")
+offset_left = 81.0
+offset_top = 19.0
+offset_right = 688.0
+offset_bottom = 619.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(600, 600)
+render_target_update_mode = 4
