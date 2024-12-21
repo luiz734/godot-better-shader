@@ -14,10 +14,6 @@ config/name="better-shader"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/better-shader/plugin.cfg", "res://addons/toggle_external_editor/plugin.cfg")
-
 [input]
 
 drag={
