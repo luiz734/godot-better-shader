@@ -1,6 +1,7 @@
 ## Allows user to zoom in/out on the viewport
 @tool
 extends Camera2D
+class_name ZoomCamera
 
 var dragging = false
 var drag_init_pos: Vector2
@@ -30,3 +31,8 @@ func _process(delta: float) -> void:
         var tartget_pos = position + (drag_init_pos - get_global_mouse_position())  
         position = tartget_pos
         position_changed.emit(position)
+
+# Forces the dragging to stop
+# Called by parent when mouse exits viewport
+func stop_dragging():
+    dragging = false

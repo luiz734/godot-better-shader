@@ -15,7 +15,7 @@ extends Control
 @onready var subviewport_container: SubViewportContainer  = %SubViewportContainer
 @onready var subviewport: SubViewport  = %SubViewport
 @onready var center_container: CenterContainer  = %CenterContainer
-@onready var camera: Camera2D  = %Camera2D
+@onready var camera: ZoomCamera  = %Camera2D
 
 const BS_STORAGE_PATH = "res://addons/better-shader/session.tres"
 const ICON_PATH = "res://addons/better-shader/icon.svg"
@@ -164,3 +164,4 @@ func on_mouse_in():
     mouse_on_viewport = true
 func on_mouse_out():
     mouse_on_viewport = false
+    camera.stop_dragging()
